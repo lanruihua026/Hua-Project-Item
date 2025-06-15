@@ -1,0 +1,8 @@
+".\Objects\STARTUP.obj",
+".\Objects\lcd1602.obj",
+".\Objects\main.obj",
+".\Objects\public.obj",
+".\Objects\Ultrasonic.obj",
+".\Objects\standaloneKey.obj" 
+TO ".\Objects\Ultrasonic" 
+PRINT(".\Listings\Ultrasonic.m51") RAMSIZE(256) 

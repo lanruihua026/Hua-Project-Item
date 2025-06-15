@@ -1,0 +1,102 @@
+C51 COMPILER V9.60.7.0   STANDALONEKEY                                                     06/15/2025 09:32:44 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE STANDALONEKEY
+OBJECT MODULE PLACED IN .\Objects\standaloneKey.obj
+COMPILER INVOKED BY: D:\ProgramData\keil_v5\C51\BIN\C51.EXE standaloneKey.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND 
+                    -PRINT(.\Listings\standaloneKey.lst) TABS(2) OBJECT(.\Objects\standaloneKey.obj)
+
+line level    source
+
+   1          #include "standaloneKey.h"
+   2          
+   3          //定义独立按键控制脚
+   4          sbit KEY1=P3^1;
+   5          sbit KEY2=P3^2;
+   6          sbit KEY3=P3^3;
+   7          sbit KEY4=P3^6;
+   8          
+   9          
+  10          
+  11          //使用宏定义独立按键按下的键值
+  12          #define KEY1_PRESS  1
+  13          #define KEY2_PRESS  2
+  14          #define KEY3_PRESS  3
+  15          #define KEY4_PRESS  4
+  16          #define KEY_UNPRESS 0 
+  17          
+  18          
+  19          
+  20          
+  21          /*******************************************************************************
+  22          * 函 数 名       : key_scan
+  23          * 函数功能     : 检测独立按键是否按下，按下则返回对应键值
+  24          * 输    入       : mode=0：单次扫描按键
+  25                     mode=1：连续扫描按键
+  26          * 输    出       : KEY1_PRESS：K1按下
+  27                     KEY2_PRESS：K2按下
+  28                     KEY3_PRESS：K3按下
+  29                     KEY4_PRESS：K4按下
+  30                     KEY_UNPRESS：未有按键按下
+  31          *******************************************************************************/
+  32          u8 key_scan(u8 mode)
+  33          {
+  34   1        static u8 key=1;
+  35   1      
+  36   1        if(mode)key=1;//连续扫描按键
+  37   1        if(key==1&&(KEY1==0||KEY2==0||KEY3==0||KEY4==0))//任意按键按下
+  38   1        {
+  39   2          delay_10us(1000);//消抖
+  40   2          key=0;
+  41   2          if(KEY1==0)
+  42   2            return KEY1_PRESS;
+  43   2          else if(KEY2==0)
+  44   2            return KEY2_PRESS;
+  45   2          else if(KEY3==0)
+  46   2            return KEY3_PRESS;
+  47   2          else if(KEY4==0)
+  48   2            return KEY4_PRESS;  
+  49   2        }
+  50   1        else if(KEY1==1&&KEY2==1&&KEY3==1&&KEY4==1) //无按键按下
+  51   1        {
+  52   2          key=1;      
+  53   2        }
+  54   1        return KEY_UNPRESS;   
+C51 COMPILER V9.60.7.0   STANDALONEKEY                                                     06/15/2025 09:32:44 PAGE 2   
+
+  55   1      }
+  56          /*******************************************************************************
+  57          * 函 数 名       : main
+  58          * 函数功能     : 主函数
+  59          * 输    入       : 无
+  60          * 输    出       : 无
+  61          *******************************************************************************/
+  62          /*void main()
+  63          { 
+  64            u8 key=0;
+  65          
+  66            while(1)
+  67            {
+  68                
+  69              key=key_scan(0);
+  70              if(key==KEY1_PRESS)//检测按键K1是否按下
+  71              {
+  72              
+  73                ;
+  74              }
+  75            }   
+  76          }*/
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     76    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      1    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
